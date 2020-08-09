@@ -1,6 +1,6 @@
 """given a pre-existing database schema, convert ROS messages back and forth"""
 import time
-from type_map import type_map
+from ros_sql.type_map import type_map
 import sqlalchemy
 
 import roslib
@@ -80,7 +80,7 @@ def msg2sql(session, metadata, topic_name, msg, timestamp=None, prefix=None, top
         update_parents( session, metadata, update_with_parent, topic_name, pk0, conn, prefix=prefix )
 
         trans.commit()
-    except Exception, e:
+    except Exception as e:
         rospy.logerr("error storing message from topic %s (prefix: %s)\n%s" % (
                       topic_name, prefix,e))
         trans.rollback()
@@ -317,12 +317,12 @@ def msg2dict(session, metadata, topic_name, msg, conn, trans, prefix=None):
         value = getattr(msg, name)
         if _type in type_map:
             # simple type
-            if isinstance(value, unicode):
-                try:
+#            if isinstance(value, unicode):
+#                try:
                     # try to convert to plain string if possible
-                    value = str(value)
-                except UnicodeEncodeError:
-                    pass
+            value = str(value)
+#                except UnicodeEncodeError:
+#                    pass
             result[name] = value
         elif _type == 'time':
             # special case for time type

@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys
 import re
 
 import sqlalchemy
 import sqlalchemy.types
 
-from type_map import type_map
+from ros_sql.type_map import type_map
 
 import roslib
 roslib.load_manifest('ros_sql')

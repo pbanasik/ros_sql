@@ -5,25 +5,25 @@ type_map = {
     'bool':
         s.Boolean(),
     'char':
-        s.SmallInteger(unsigned=True),
+        s.SmallInteger(),
     'int8':
         s.SmallInteger(),
     'uint8':
-        s.SmallInteger(unsigned=True),
+        s.SmallInteger(),
     'byte':
         s.SmallInteger(),
     'int16':
         s.Integer(),
     'uint16':
-        s.Integer(unsigned=True),
+        s.Integer(),
     'int32':
         s.Integer(),
     'uint32':
-        s.Integer(unsigned=True),
+        s.Integer(),
     'int64':
         s.BigInteger(),
     'uint64':
-        s.BigInteger(unsigned=True),
+        s.BigInteger(),
     'float32':
         s.Float(precision=32),
     'float64':

@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import argparse
 import sys, time
-import Queue
+import queue
 import socket
 import sqlalchemy
 import numpy as np
@@ -47,7 +47,7 @@ class Recorder:
         else:
             rospy.loginfo('saving topics %r'%self.topics)
 
-        self.q = Queue.Queue()
+        self.q = queue.Queue()
 
         self._do_check_master = False
 
@@ -85,7 +85,7 @@ class Recorder:
                                     prefix=self.prefix,
                                     toplevel_columns=self.toplevel_columns,
                                     )
-            except ros2sql.MetadataChangedError, err:
+            except ros2sql.MetadataChangedError as err:
                 rospy.logerr( str(err) )
                 continue
             topic2msg_class[topic] = msg_class
@@ -108,7 +108,7 @@ class Recorder:
             try:
                 # Block but timeout so we handle SIGINT (Ctrl-C).
                 (now,msg,topic) = self.q.get(block=True,timeout=0.1)
-            except Queue.Empty:
+            except queue.Empty:
                 pass
             else:
                 factories.msg2sql(self.session, self.metadata,
@@ -275,7 +275,11 @@ def main():
     argv = rospy.myargv()
     args = parser.parse_args(argv[1:])
 
-    args.func(args)
+    try:
+        func = args.func
+    except AttributeError:
+        parser.error("too few arguments")
+    func(args)
 
 if __name__=='__main__':
     main()
