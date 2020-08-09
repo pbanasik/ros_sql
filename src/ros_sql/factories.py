@@ -315,7 +315,9 @@ def msg2dict(session, metadata, topic_name, msg, conn, trans, prefix=None):
     update_with_parent = {}
     for name, _type in zip(msg.__slots__, msg._slot_types):
         value = getattr(msg, name)
-        if _type in type_map:
+        if _type == 'bool':
+            result[name] = (value == 'True')
+        elif _type in type_map:
             # simple type
 #            if isinstance(value, unicode):
 #                try:
